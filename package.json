@@ -1,0 +1,34 @@
+{
+  "name": "strapi-provider-upload-imagekitio",
+  "version": "1.0.0",
+  "description": "Imagekit provider for strapi upload",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "pack-up build",
+    "clean": "run -T rimraf ./dist",
+    "watch": "pack-up watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imagekit-developer/strapi-provider-upload-imagekitio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imagekit-developer/strapi-provider-upload-imagekitio/issues"
+  },
+  "homepage": "https://github.com/imagekit-developer/strapi-provider-upload-imagekitio#readme",
+  "devDependencies": {
+    "@strapi/pack-up": "^5.0.2"
+  },
+  "dependencies": {
+    "imagekit": "^5.2.0"
+  }
+}
