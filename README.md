@@ -9,16 +9,13 @@ yarn add strapi-provider-upload-imagekitio
 # using npm
 npm install strapi-provider-upload-imagekitio --save
 ```
+
 ## Configuration
 
-- `provider` defines the name of the provider
-- `providerOptions` are options needed to setup the provider
-    * `urlEndpoint` is a required parameter. This can be obtained from the [URL-endpoint section](https://imagekit.io/dashboard/url-endpoints) or the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
-    * `publicKey` and `privateKey` is a required parameter. This can be obtained from the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
-        isPrivateFile: false,
-        checks: `"file.size" < "1mb"`,
-        checks: `"file.size" < "1mb"`,
-        tags: ["tag1", "tag2"],
+- `provider`: Specifies the name of the provider.
+- `providerOptions`: Contains the options required to configure the provider.
+    * `urlEndpoint`: A required parameter that can be obtained from the [URL-endpoint section](https://imagekit.io/dashboard/url-endpoints) or the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
+    * `publicKey` and `privateKey`: Required parameters that can be retrieved from the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
     * `uploadOptions` is an optional parameter that accepts upload parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). The following parameters are supported by the provider: `folder`, `useUniqueFileName`, `tags`, `checks`, `isPrivateFile`, `customCoordinates`, `webhookUrl`, `extensions`, `transformation`, and `customMetadata`.
 
 
