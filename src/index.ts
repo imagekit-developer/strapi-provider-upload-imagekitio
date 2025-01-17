@@ -1,6 +1,4 @@
-//@ts-nocheck
-/* global strapi */
-const ImageKit = require("imagekit");
+import ImageKit from "imagekit";
 import { ProviderOptions } from "./interfaces/ProviderOptions";
 import { toUploadParams } from "./utils";
 
@@ -14,7 +12,6 @@ export default {
     const uploadOptions = providerOptions.uploadOptions || {};
 
     const upload = (file): Promise<void> => {
-      strapi.log.info(JSON.stringify(uploadOptions));
       return new Promise((resolve, reject) => {
         const uploadParams = toUploadParams(uploadOptions);
         imagekit
@@ -25,7 +22,7 @@ export default {
             file.provider_metadata = {
               fileId: fileId,
             };
-            strapi.log.info(`File uploaded successfully with id ${fileId}`);
+            console.log(`File uploaded successfully with id ${fileId}`);
             file.provider_metadata = {
               fileId: fileId,
               ...uploadOptions,
@@ -33,7 +30,7 @@ export default {
             return resolve();
           })
           .catch((err) => {
-            strapi.log.error(`File upload failed`);
+            console.log(`File upload failed`);
             return reject(err);
           });
       });
@@ -42,25 +39,25 @@ export default {
     const uploadStream = async (file) => {
       if (!file?.stream) {
         const error = new Error("Missing file stream");
-        strapi.log.error(error.message);
+        console.log(error.message);
         return Promise.reject(error);
       }
 
       const streamToBuffer = (stream) =>
         new Promise((resolve, reject) => {
-          const chunks = [];
+          const chunks: Buffer[] = [];
           stream.on("data", (chunk) => chunks.push(chunk));
           stream.on("end", () => resolve(Buffer.concat(chunks)));
           stream.on("error", (err) => reject(err));
         });
 
       try {
-        strapi.log.info(`Processing file stream for upload.`);
+        console.log(`Processing file stream for upload.`);
         file.buffer = await streamToBuffer(file.stream);
-        strapi.log.info(`File stream successfully converted to buffer. Uploading file...`);
+        console.log(`File stream successfully converted to buffer. Uploading file...`);
         return await upload(file);
       } catch (error) {
-        strapi.log.error(`Error during file upload: ${error.message}`);
+        console.log(`Error during file upload: ${error.message}`);
         return Promise.reject(error);
       }
     };
@@ -72,16 +69,14 @@ export default {
           imagekit
             .deleteFile(fileId)
             .then((response) => {
-              strapi.log.info(`File with ID ${fileId} deleted successfully.`);
+              console.log(`File with ID ${fileId} deleted successfully.`);
               return resolve();
             })
             .catch((error) => {
-              strapi.log.error(`Error deleting file with ID ${fileId}. Error: ${error.message}`);
-              return resolve();
-              // return reject(error);
+              console.log(`Error deleting file with ID ${fileId}. Error: ${error.message}`);
+              return reject(error);
             });
-        } //else return reject("No fileId found");
-        else return resolve();
+        } else return reject("No fileId found");
       });
     };
 
@@ -91,22 +86,19 @@ export default {
       delete: deleteFile,
       async getSignedUrl(file) {
         try {
-          const isPrivateFile = file?.provider_metadata?.isPrivateFile;
-          const folder = file?.provider_metadata?.folder;
-          if (isPrivateFile) {
-            strapi.log.info(`Generating signed URL for private file with ID ${file.provider_metadata.fileId}`);
-            const imageURL = await imagekit.url({
-              src: file.url,
-              signed: true,
-            });
-            return { url: imageURL || file.url };
-          } else return { url: file.url };
+          console.log(`Generating signed URL for file with ID ${file.provider_metadata.fileId}`);
+          const imageURL = await imagekit.url({
+            src: file.url,
+            signed: true,
+          });
+          return { url: imageURL };
         } catch (err) {
+          console.log(`Error generating signed URL for file with ID ${file.provider_metadata.fileId}`);
           return { url: file.url };
         }
       },
       isPrivate() {
-        return uploadOptions.isPrivateFile ?? false;
+        return true;
       },
     };
   },
