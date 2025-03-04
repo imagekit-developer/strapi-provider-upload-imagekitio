@@ -1,6 +1,19 @@
-# strapi-provider-upload-imagekitio
+[<img width="250" alt="ImageKit.io" src="https://raw.githubusercontent.com/imagekit-developer/imagekit-javascript/master/assets/imagekit-light-logo.svg"/>](https://imagekit.io)
+
+# Strapi upload provider for ImageKit.io
+
+[![Node CI](https://github.com/imagekit-developer/imagekit-next/workflows/Node%20CI/badge.svg)](https://github.com/imagekit-developer/strapi-provider-upload-imagekitio/)
+[![npm version](https://img.shields.io/npm/v/strapi-provider-upload-imagekitio)](https://www.npmjs.com/package/strapi-provider-upload-imagekitio)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
+
+A Strapi provider for [ImageKit.io](https://imagekit.io/) allows you to upload assets directly to the ImageKit media library from Strapi and also delete them.
+
+ImageKit is a complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
 ## Installation
+
+Add the provider to your project by executing any of the below commands.
 
 ```bash
 # using yarn
