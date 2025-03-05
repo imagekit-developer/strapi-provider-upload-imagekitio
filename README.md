@@ -25,7 +25,7 @@ npm install strapi-provider-upload-imagekitio --save
 
 ## Configuration
 
-To make our provider work, we need to add a configuration in the `./config/plugins.ts` file. The configuration should include the following parameters, as described below.
+To make our provider work, we need to add a configuration in the `./config/plugins.js` file. The configuration should include the following parameters, as described below.
 
 - `provider`: Specifies the name of the provider.
 - `providerOptions`: Contains the options required to configure the provider.
