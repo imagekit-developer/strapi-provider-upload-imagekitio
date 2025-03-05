@@ -25,18 +25,19 @@ npm install strapi-provider-upload-imagekitio --save
 
 ## Configuration
 
+To make our provider work, we need to add a configuration in the `./config/plugins.ts` file. The configuration should include the following parameters, as described below.
+
 - `provider`: Specifies the name of the provider.
 - `providerOptions`: Contains the options required to configure the provider.
     * `urlEndpoint`: A required parameter that can be obtained from the [URL-endpoint section](https://imagekit.io/dashboard/url-endpoints) or the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
     * `publicKey` and `privateKey`: Required parameters that can be retrieved from the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
     * `uploadOptions` is an optional parameter that accepts upload parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). The following parameters are supported by the provider: `folder`, `useUniqueFileName`, `tags`, `checks`, `isPrivateFile`, `customCoordinates`, `webhookUrl`, `extensions`, `transformation`, and `customMetadata`.
 
-
-See the [documentation about using a provider](https://docs.strapi.io/dev-docs/providers) for information on installing and using a provider. To understand how environment variables are used in Strapi, please refer to the [documentation about environment variables](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/optional/environment.html#environment-variables).
+For more information about using a provider, refer to the [documentation about using a provider](https://docs.strapi.io/dev-docs/providers). To understand how environment variables are used in Strapi, please refer to the [documentation about environment variables](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/optional/environment).
 
 ### Provider Configuration
 
-`./config/plugins.js`
+Below is an example of how to configure the provider in `./config/plugins.js`.
 
 ```js
 module.exports = ({ env }) => ({
