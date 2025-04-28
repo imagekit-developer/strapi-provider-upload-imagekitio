@@ -10,7 +10,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import image from '@rollup/plugin-image';
 import html from 'rollup-plugin-html';
 
-const isExernal = (id) => !path.isAbsolute(id) && !id.startsWith('.');
+const isExternal = (id) => !path.isAbsolute(id) && !id.startsWith('.');
 
 const basePlugins = () => [
   image(),
@@ -55,7 +55,7 @@ const baseConfig = (opts = {}) => {
 
   return defineConfig({
     input,
-    external: isExernal,
+    external: isExternal,
     output: baseOutput({ outDir, rootDir }),
     plugins: basePlugins(),
     onwarn(warning, warn) {
