@@ -11,12 +11,6 @@ A Strapi provider for [ImageKit.io](https://imagekit.io/) that allows you to upl
 
 ImageKit is a complete media storage, optimization, and transformation solution with an image and video CDN. It integrates with your existing infrastructure (AWS S3, web servers, CDN, custom domains) to deliver optimized images in minutes with minimal code changes.
 
-## Features
-
-- Upload images and files from Strapi directly to ImageKit.io
-- Support for signed (private) URLs
-- Customizable folder structure and advanced upload options
-
 ## Installation
 
 Add the provider to your project by executing any of the below commands.
@@ -87,7 +81,7 @@ See the [documentation about using a provider](https://docs.strapi.io/cms/provid
 | publicKey | string | Yes | Your ImageKit public API key |
 | privateKey | string | Yes | Your ImageKit private API key |
 | urlEndpoint | string | Yes | Your ImageKit URL endpoint |
-| restrictUnsignedUrls | boolean | No | If true, all assets are delivered as signed URLs (private access). Default: false |
+| restrictUnsignedUrls | boolean | No | If true, all assets are delivered as signed URLs (private files). Default: false |
 
 ### Action Options (actionOptions.upload and actionOptions.uploadStream)
 
