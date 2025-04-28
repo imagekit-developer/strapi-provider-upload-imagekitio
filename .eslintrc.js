@@ -16,12 +16,8 @@ module.exports = {
     'rxjs/finnish': 'error',
     'node/no-unsupported-features/es-syntax': 'off',
     'node/no-missing-import': 'off',
-    // TODO: The following rules from @strapi/eslint-config/back/typescript are disabled because they're causing problems we need to solve or fix
-    // to be solved in configuration
-    'node/no-unsupported-features/es-syntax': 'off',
     'import/prefer-default-export': 'off',
     'import/namespace': 'off',
-    'node/no-missing-import': 'off',
     '@typescript-eslint/brace-style': 'off', // TODO: fix conflict with prettier/prettier in data-transfer/engine/index.ts
     // to be cleaned up throughout codebase (too many to fix at the moment)
     '@typescript-eslint/no-use-before-define': 'off',
