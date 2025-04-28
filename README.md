@@ -1,15 +1,21 @@
 [<img width="250" alt="ImageKit.io" src="https://raw.githubusercontent.com/imagekit-developer/imagekit-javascript/master/assets/imagekit-light-logo.svg"/>](https://imagekit.io)
 
-# Strapi upload provider for ImageKit.io
+# Strapi Upload Provider for ImageKit.io
 
-[![Node CI](https://github.com/imagekit-developer/imagekit-next/workflows/Node%20CI/badge.svg)](https://github.com/imagekit-developer/strapi-provider-upload-imagekitio/)
-[![npm version](https://img.shields.io/npm/v/strapi-provider-upload-imagekitio)](https://www.npmjs.com/package/strapi-provider-upload-imagekitio)
+<!-- [![Node CI](https://github.com/imagekit-developer/imagekit-next/workflows/Node%20CI/badge.svg)](https://github.com/imagekit-developer/strapi-provider-upload-imagekitio/) -->
+[![npm version](https://img.shields.io/npm/v/@imagekit/strapi-provider-upload)](https://www.npmjs.com/package/@imagekit/strapi-provider-upload)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-A Strapi provider for [ImageKit.io](https://imagekit.io/) allows you to upload assets directly to the ImageKit media library from Strapi and also delete them.
+A Strapi provider for [ImageKit.io](https://imagekit.io/) that allows you to upload and manage assets directly in the ImageKit media library from Strapi.
 
-ImageKit is a complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
+ImageKit is a complete media storage, optimization, and transformation solution with an image and video CDN. It integrates with your existing infrastructure (AWS S3, web servers, CDN, custom domains) to deliver optimized images in minutes with minimal code changes.
+
+## Features
+
+- Upload images and files from Strapi directly to ImageKit.io
+- Support for signed (private) URLs
+- Customizable folder structure and advanced upload options
 
 ## Installation
 
@@ -17,76 +23,121 @@ Add the provider to your project by executing any of the below commands.
 
 ```bash
 # using yarn
-yarn add strapi-provider-upload-imagekitio
+yarn add @imagekit/strapi-provider-upload
 
 # using npm
-npm install strapi-provider-upload-imagekitio --save
+npm install @imagekit/strapi-provider-upload --save
 ```
 
 ## Configuration
 
-To make our provider work, we need to add a configuration in the `./config/plugins.js` file. The configuration should include the following parameters, as described below.
-
-- `provider`: Specifies the name of the provider.
-- `providerOptions`: Contains the options required to configure the provider.
-    * `urlEndpoint`: A required parameter that can be obtained from the [URL-endpoint section](https://imagekit.io/dashboard/url-endpoints) or the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
-    * `publicKey` and `privateKey`: Required parameters that can be retrieved from the [developer section](https://imagekit.io/dashboard/developer/api-keys) on your ImageKit dashboard.
-    * `uploadOptions` is an optional parameter that accepts upload parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). The following parameters are supported by the provider: `folder`, `useUniqueFileName`, `tags`, `checks`, `isPrivateFile`, `customCoordinates`, `webhookUrl`, `extensions`, `transformation`, and `customMetadata`.
-
-For more information about using a provider, refer to the [documentation about using a provider](https://docs.strapi.io/dev-docs/providers). To understand how environment variables are used in Strapi, please refer to the [documentation about environment variables](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/optional/environment).
-
-### Provider Configuration
-
-Below is an example of how to configure the provider in `./config/plugins.js`.
+To enable this provider, add or update the configuration in your `./config/plugins.js` (or `./config/plugins.ts` for TypeScript projects):
 
 ```js
 module.exports = ({ env }) => ({
   // ...
   upload: {
     config: {
-      provider: "strapi-provider-upload-imagekitio",
+      provider: "@imagekit/strapi-provider-upload",
       providerOptions: {
-        publicKey: env("PUBLIC_KEY"),
-        privateKey: env("PRIVATE_KEY"),
-        urlEndpoint: env("URL_ENDPOINT"),
+        publicKey: env("IMAGEKIT_PUBLIC_KEY"),
+        privateKey: env("IMAGEKIT_PRIVATE_KEY"),
+        urlEndpoint: env("IMAGEKIT_URL_ENDPOINT"),
 
-        // Optional
-        uploadOptions: {
-          folder: "/path",
-          useUniqueFileName: true,
-          tags: ["tag1", "tag2"],
-          checks: `"file.size" < "1mb"`,
-          isPrivateFile: false,
-          customCoordinates: "1,2,3,4",
-          webhookUrl: "https://testwebook.com",
-          extensions: [
-          {
-              name: "google-auto-tagging",
-              maxTags: 5,
-              minConfidence: 95,
-          },
-          ],
-          transformation: {
-          pre: "l-text,i-Imagekit,fs-50,l-end",
-          post: [
-              {
-              type: "transformation",
-              value: "l-text,i-Imagekit,fs-50,l-end",
-              },
-          ],
-          },
-          customMetadata: { test: "value" },
+        /**
+         * Determines whether all asset URLs should be delivered as signed (authenticated) URLs.
+         * Enable this if you are serving private files or if the "Restrict unsigned image URLs" option is enabled in your ImageKit dashboard.
+         * @default false
+         */
+        restrictUnsignedUrls: false,
+      },
+      actionOptions: {
+        upload: {
+          /**
+           * If true, all assets are uploaded into the base folder, ignoring Strapi's folder structure.
+           * Useful because Strapi may set folder names as numbers instead of user-defined names.
+           * @default false
+           */
+          ignoreStrapiFolders: false,
+
+          /**
+           * Folder path (relative to the root) where the file will be uploaded.
+           * @default ""
+           */
+          folder: "",
+          // Other ImageKit upload options can be set here (see below)
+        },
+        uploadStream: {
+          ignoreStrapiFolders: false,
+          folder: "",
+          // Other ImageKit upload options can be set here
         },
       },
     },
   },
-  // ...
 });
 ```
 
-### Security Middleware Configuration
+See the [documentation about using a provider](https://docs.strapi.io/cms/providers#configuring-providers) for information on installing and using a provider. To understand how environment variables are used in Strapi, please refer to the [documentation about environment variables](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/optional/environment.html#environment-variables).
 
-The default settings in Strapi's Security Middleware require modifications to the `contentSecurityPolicy` settings to ensure thumbnail previews are visible in the Media Library. Replace the `strapi::security` string with the object provided below, as detailed in the [middleware configuration documentation](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html#loading-order).
+### Provider Options (providerOptions)
+
+| Option | Type | Required | Description |
+|--------|------|----------|-------------|
+| publicKey | string | Yes | Your ImageKit public API key |
+| privateKey | string | Yes | Your ImageKit private API key |
+| urlEndpoint | string | Yes | Your ImageKit URL endpoint |
+| restrictUnsignedUrls | boolean | No | If true, all assets are delivered as signed URLs (private access). Default: false |
+
+### Action Options (actionOptions.upload and actionOptions.uploadStream)
+
+| Option | Type | Required | Description |
+|--------|------|----------|-------------|
+| ignoreStrapiFolders | boolean | No | If true, uploads all assets to the base folder, ignoring Strapi's folder structure. Default: false |
+| folder | string | No | Folder path (relative to root) for uploads. Default: "" |
+| ...other ImageKit options | varies | No | Any other [ImageKit upload options](https://imagekit.io/docs/api-reference/upload-file/upload-file#request-body) such as tags, customMetadata, etc. |
+
+
+### Example: Full Configuration
+
+```js
+module.exports = ({ env }) => ({
+  upload: {
+    config: {
+      provider: "@imagekit/strapi-provider-upload",
+      providerOptions: {
+        publicKey: env("IMAGEKIT_PUBLIC_KEY"),
+        privateKey: env("IMAGEKIT_PRIVATE_KEY"),
+        urlEndpoint: env("IMAGEKIT_URL_ENDPOINT"),
+        restrictUnsignedUrls: false,
+      },
+      actionOptions: {
+        upload: {
+          ignoreStrapiFolders: false,
+          folder: "strapi/uploads",
+          tags: ["strapi", "imagekit"],
+          // ...other ImageKit options
+        },
+        uploadStream: {
+          ignoreStrapiFolders: false,
+          folder: "strapi/uploads",
+          tags: ["strapi", "imagekit"],
+          // ...other ImageKit options
+        },
+      },
+    },
+  },
+});
+```
+
+### Advanced Usage
+
+You can pass any valid [ImageKit upload options](https://imagekit.io/docs/api-reference/upload-file/upload-file#request-body) in actionOptions.upload or actionOptions.uploadStream. For example: tags, customMetadata, transformation, etc.
+
+
+### Security & CSP
+
+Due to the default settings in the Strapi Security Middleware you will need to modify the `contentSecurityPolicy` settings to properly see thumbnail previews in the Media Library. You should replace `strapi::security` string with the object bellow instead as explained in the [middleware configuration](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html#loading-order) documentation.
 
 `./config/middlewares.js`
 
@@ -94,14 +145,14 @@ The default settings in Strapi's Security Middleware require modifications to th
 module.exports = [
   // ...
   {
-    name: 'strapi::security',
+    name: "strapi::security",
     config: {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          'connect-src': ["'self'", 'https:'],
-          'img-src': ["'self'", 'data:', 'blob:', 'ik.imagekit.io'],
-          'media-src': ["'self'", 'data:', 'blob:', 'ik.imagekit.io'],
+          "connect-src": ["'self'", "https:"],
+          "img-src": ["'self'", "data:", "blob:", "market-assets.strapi.io", "ik.imagekit.io"],
+          "media-src": ["'self'", "data:", "blob:", "market-assets.strapi.io", "ik.imagekit.io"],
           upgradeInsecureRequests: null,
         },
       },
@@ -110,3 +161,23 @@ module.exports = [
   // ...
 ];
 ```
+
+## Resources
+
+- [LICENSE](LICENSE)
+
+## Links
+
+- [ImageKit.io](https://imagekit.io/)
+- [Strapi website](https://strapi.io/)
+- [Strapi documentation](https://docs.strapi.io)
+- [Strapi community on Discord](https://discord.strapi.io)
+- [Strapi news on Twitter](https://twitter.com/strapijs)
+
+## Troubleshooting
+- Ensure your API keys and URL endpoint are correct.
+- If uploads are not appearing in the expected folder, check your ignoreStrapiFolders and folder options.
+- For private files, set restrictUnsignedUrls to true and ensure proper permissions in your ImageKit dashboard.
+
+## Contributing
+PRs and issues are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) if available.
