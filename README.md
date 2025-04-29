@@ -43,7 +43,7 @@ module.exports = ({ env }) => ({
          * Enable this if you are serving private files or if the "Restrict unsigned image URLs" option is enabled in your ImageKit dashboard.
          * @default false
          */
-        restrictUnsignedUrls: false,
+        useSignedUrls: false,
       },
       actionOptions: {
         upload: {
@@ -81,7 +81,7 @@ See the [documentation about using a provider](https://docs.strapi.io/cms/provid
 | publicKey | string | Yes | Your ImageKit public API key |
 | privateKey | string | Yes | Your ImageKit private API key |
 | urlEndpoint | string | Yes | Your ImageKit URL endpoint |
-| restrictUnsignedUrls | boolean | No | If true, all assets are delivered as signed URLs (private files). Default: false |
+| useSignedUrls | boolean | No | Determines whether all asset URLs should be delivered as signed (authenticated) URLs.<br> Enable this if you are serving private files or if the "Restrict unsigned image URLs" option is enabled in your ImageKit dashboard. <br> Default: false |
 
 ### Action Options (actionOptions.upload and actionOptions.uploadStream)
 
@@ -103,7 +103,7 @@ module.exports = ({ env }) => ({
         publicKey: env("IMAGEKIT_PUBLIC_KEY"),
         privateKey: env("IMAGEKIT_PRIVATE_KEY"),
         urlEndpoint: env("IMAGEKIT_URL_ENDPOINT"),
-        restrictUnsignedUrls: false,
+        useSignedUrls: false,
       },
       actionOptions: {
         upload: {
@@ -171,7 +171,7 @@ module.exports = [
 ## Troubleshooting
 - Ensure your API keys and URL endpoint are correct.
 - If uploads are not appearing in the expected folder, check your ignoreStrapiFolders and folder options.
-- For private files, set restrictUnsignedUrls to true and ensure proper permissions in your ImageKit dashboard.
+- For private files, set useSignedUrls to true and ensure proper permissions in your ImageKit dashboard.
 
 ## Contributing
 PRs and issues are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) if available.

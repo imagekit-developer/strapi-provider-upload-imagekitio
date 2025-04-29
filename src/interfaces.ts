@@ -1,4 +1,3 @@
-import type { ReadStream } from "node:fs";
 import { UploadOptions } from "imagekit/dist/libs/interfaces";
 import StrapiUploadServer from "@strapi/upload/strapi-server";
 
@@ -25,7 +24,7 @@ export interface InitOptions {
   publicKey: string;
   privateKey: string;
   urlEndpoint: string;
-  restrictUnsignedUrls?: boolean;
+  useSignedUrls?: boolean;
 }
 
 export type File = Parameters<ReturnType<ReturnType<typeof StrapiUploadServer>["services"]["provider"]>["upload"]>[0];

@@ -6,7 +6,7 @@ import { UrlOptionsSrc } from "imagekit/dist/libs/interfaces/UrlOptions";
 
 class ImageKitProvider {
   #client: ImageKit;
-  #restrictUnsignedUrls: boolean;
+  #useSignedUrls: boolean;
 
   /* Strapi Upload Plugin Interface */
   delete = this.#deleteFile;
@@ -15,13 +15,13 @@ class ImageKitProvider {
   getSignedUrl = this.#getSignedUrl;
   isPrivate = this.#isPrivate;
 
-  constructor({ publicKey, privateKey, urlEndpoint, restrictUnsignedUrls }: InitOptions) {
+  constructor({ publicKey, privateKey, urlEndpoint, useSignedUrls }: InitOptions) {
     this.#client = this.#getImageKitClient({ publicKey, privateKey, urlEndpoint });
-    this.#restrictUnsignedUrls = restrictUnsignedUrls || false;
+    this.#useSignedUrls = useSignedUrls || false;
   }
 
-  static init({ publicKey, privateKey, urlEndpoint, restrictUnsignedUrls }: InitOptions) {
-    return new ImageKitProvider({ publicKey, privateKey, urlEndpoint, restrictUnsignedUrls });
+  static init({ publicKey, privateKey, urlEndpoint, useSignedUrls }: InitOptions) {
+    return new ImageKitProvider({ publicKey, privateKey, urlEndpoint, useSignedUrls });
   }
 
   #getSignedUrl(file: File, customParams: Omit<UrlOptionsSrc, "src" | "signed"> = {}) {
@@ -44,7 +44,7 @@ class ImageKitProvider {
   }
 
   #isPrivate() {
-    return this.#restrictUnsignedUrls;
+    return this.#useSignedUrls;
   }
 
   #getImageKitClient(config: InitOptions) {
