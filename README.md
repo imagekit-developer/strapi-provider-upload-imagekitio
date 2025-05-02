@@ -56,15 +56,15 @@ module.exports = ({ env }) => ({
 
           /**
            * Folder path (relative to the root) where the file will be uploaded.
-           * @default ""
+           * @default "/"
            */
-          folder: "",
+          folder: "/",
           // Other ImageKit upload options can be set here (see below)
         },
         uploadStream: {
           ignoreStrapiFolders: false,
-          folder: "",
-          // Other ImageKit upload options can be set here
+          folder: "/",
+          // Other ImageKit upload options can be set here (see below)
         },
       },
     },
@@ -75,6 +75,8 @@ module.exports = ({ env }) => ({
 See the [documentation about using a provider](https://docs.strapi.io/cms/providers#configuring-providers) for information on installing and using a provider. To understand how environment variables are used in Strapi, please refer to the [documentation about environment variables](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/optional/environment.html#environment-variables).
 
 ### Provider Options (providerOptions)
+
+You can obtain your ImageKit API keys and URL endpoint from your [ImageKit dashboard](https://imagekit.io/dashboard/developer/api-keys).
 
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
@@ -88,11 +90,27 @@ See the [documentation about using a provider](https://docs.strapi.io/cms/provid
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
 | ignoreStrapiFolders | boolean | No | If true, uploads all assets to the base folder, ignoring Strapi's folder structure. Default: false |
-| folder | string | No | Folder path (relative to root) for uploads. Default: "" |
-| ...other ImageKit options | varies | No | Any other [ImageKit upload options](https://imagekit.io/docs/api-reference/upload-file/upload-file#request-body) such as tags, customMetadata, etc. |
+| folder | string | No | Folder path (relative to root) for uploads. Default: "/" |
+
+#### Supported ImageKit Upload Parameters
+
+The provider supports the following ImageKit upload parameters, which can be included in your configuration:
+
+- `tags`: Array of tags to add to the uploaded file
+- `customCoordinates`: Define an important area in the image to be used with fo-custom transformation
+- `extensions`: Array of extensions to be applied to the uploaded image
+- `webhookUrl`: URL where upload webhook notifications for extensions will be sent
+- `overwriteAITags`: Boolean to control whether to overwrite AI-generated tags
+- `overwriteTags`: Boolean to control whether to overwrite existing tags
+- `overwriteCustomMetadata`: Boolean to control whether to overwrite existing custom metadata
+- `customMetadata`: Object containing custom metadata fields
+- `transformation`: Object containing properties for pre and post transformations
+- `checks`: String containing server-side checks to run on the asset
+
+For detailed information about these parameters, refer to the [ImageKit Upload API documentation](https://imagekit.io/docs/api-reference/upload-file/upload-file#request-body).
 
 
-### Example: Full Configuration
+### Example: Full configuration
 
 ```js
 module.exports = ({ env }) => ({
@@ -137,7 +155,7 @@ Due to the default settings in the Strapi Security Middleware you will need to m
 
 ```js
 module.exports = [
-  // ...
+  // ...other middlewares
   {
     name: "strapi::security",
     config: {
@@ -152,7 +170,7 @@ module.exports = [
       },
     },
   },
-  // ...
+  // ...other middlewares
 ];
 ```
 
@@ -174,4 +192,4 @@ module.exports = [
 - For private files, set useSignedUrls to true and ensure proper permissions in your ImageKit dashboard.
 
 ## Contributing
-PRs and issues are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) if available.
+PRs and issues are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
