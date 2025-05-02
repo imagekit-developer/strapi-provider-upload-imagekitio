@@ -19,7 +19,6 @@ yarn install
 ## Development
 - Keep your code clean and readable.
 - Follow existing code style and conventions (TypeScript, Prettier, etc.).
-- Add or update tests where applicable.
 - Document new features or changes in the README if needed.
 
 ## Pull Requests
