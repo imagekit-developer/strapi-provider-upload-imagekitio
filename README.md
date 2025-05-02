@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-A Strapi provider for [ImageKit.io](https://imagekit.io/) that allows you to upload and manage assets directly in the ImageKit media library from Strapi.
+A Strapi provider for [ImageKit.io](https://imagekit.io/) that allows you to upload, manage assets and deliver media directly in the ImageKit media library from Strapi.
 
 ImageKit is a complete media storage, optimization, and transformation solution with an image and video CDN. It integrates with your existing infrastructure (AWS S3, web servers, CDN, custom domains) to deliver optimized images in minutes with minimal code changes.
 
@@ -141,11 +141,6 @@ module.exports = ({ env }) => ({
   },
 });
 ```
-
-### Advanced Usage
-
-You can pass any valid [ImageKit upload options](https://imagekit.io/docs/api-reference/upload-file/upload-file#request-body) in actionOptions.upload or actionOptions.uploadStream. For example: tags, customMetadata, transformation, etc.
-
 
 ### Security & CSP
 
