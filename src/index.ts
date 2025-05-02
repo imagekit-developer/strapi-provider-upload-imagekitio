@@ -115,7 +115,14 @@ class ImageKitProvider {
       return Promise.reject(response.error);
     }
 
-    const { fileId, url } = response.data;
+    const fileDetails = await tryCatch(this.#client.getFileDetails(response.data.fileId));
+
+    if (fileDetails.error) {
+      strapi.log.error(`[ImageKit Upload Provider]Error getting file details: ${fileDetails.error}`);
+      return Promise.reject(fileDetails.error);
+    }
+
+    const { fileId, url } = fileDetails.data;
 
     strapi.log.info(`[ImageKit Upload Provider] File uploaded successfully with id ${fileId}`);
 
