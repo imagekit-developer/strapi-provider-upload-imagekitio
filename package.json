@@ -1,0 +1,84 @@
+{
+  "name": "@imagekit/strapi-provider-upload",
+  "version": "1.0.0",
+  "description": "ImageKit.io provider for strapi upload",
+  "keywords": [
+    "upload",
+    "imagekitio",
+    "strapi"
+  ],
+  "homepage": "https://imagekit.io",
+  "bugs": {
+    "url": "https://github.com/imagekit-developer/strapi-provider-upload-imagekitio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/imagekit-developer/strapi-provider-upload-imagekitio.git"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "author": {
+    "name": "Imagekit Developer",
+    "email": "developer@imagekit.io",
+    "url": "https://github.com/imagekit-developer"
+  },
+  "maintainers": [
+    {
+      "name": "Imagekit Developer",
+      "email": "developer@imagekit.io",
+      "url": "https://github.com/imagekit-developer"
+    },
+    {
+      "name": "Abhinav Dhiman",
+      "email": "abhinav@imagekit.io",
+      "url": "https://github.com/ahnv"
+    }
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "npm-run-all clean --parallel build:code build:types",
+    "build:code": "rollup -c",
+    "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "clean": "rimraf ./dist",
+    "lint": "eslint .",
+    "watch": "rollup -c -w"
+  },
+  "peerDependencies": {
+    "@strapi/logger": "^5.0.0",
+    "@strapi/upload": "^5.0.0",
+    "@strapi/types": "^5.0.0",
+    "@strapi/utils": "^5.0.0"
+  },
+  "dependencies": {
+    "imagekit": "^6.0.0",
+    "into-stream": "^5.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "28.0.1",
+    "@rollup/plugin-dynamic-import-vars": "2.1.5",
+    "@rollup/plugin-image": "3.0.3",
+    "@rollup/plugin-json": "6.1.0",
+    "@rollup/plugin-node-resolve": "15.3.0",
+    "@rollup/plugin-swc": "0.4.0",
+    "@strapi/eslint-config": "^0.2.1",
+    "@swc/core": "^1.11.21",
+    "@tsconfig/node18": "18.2.2",
+    "@types/node": "^22.14.1",
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
+    "rollup": "4.27.4",
+    "rollup-plugin-html": "^0.2.1",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0 <=22.x.x",
+    "npm": ">=6.0.0"
+  }
+}
